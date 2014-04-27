@@ -1,4 +1,4 @@
-d-barchart
+d-codemirror
 ==================
 
 Example CodeMirror Derby component.  
