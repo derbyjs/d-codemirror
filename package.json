@@ -1,0 +1,24 @@
+{
+  "name": "d-codemirror",
+  "description": "Derby component for a live-bound codemirror",
+  "version": "0.0.1",
+  "main": "index.js",
+  "keywords": [
+    "derby",
+    "component",
+    "codemirror"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/codeparty/d-codemirror.git"
+  },
+  "bugs": {
+    "url": "https://github.com/codeparty/d-codemirror/issues"
+  },
+  "author": "Ian Johnson",
+  "license": "MIT",
+  "dependencies": {
+    "codemirror": "^4.1.0"
+  },
+  "devDependencies": {}
+}
