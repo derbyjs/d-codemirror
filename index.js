@@ -33,7 +33,7 @@ CM.prototype.create = function() {
       that.supress = false;
       that.check();
     }
-  })
+  });
   cm.on("change", function(cm, change) {
     if(that.supress) return;
     //console.log("change", change)
@@ -43,7 +43,7 @@ CM.prototype.create = function() {
     if(change.removed.length > 1 || change.removed) {
       var toRemove = change.removed.join("\n");
       //console.log("toremove", toRemove, start)
-      model.pass({editing: true }).stringRemove("text", start, toRemove.length)
+      model.pass({editing: true }).stringRemove("text", start, toRemove.length);
     }
     //see if we have anything to insert
     if(change.text.length > 1 || change.text) {
@@ -52,7 +52,7 @@ CM.prototype.create = function() {
       model.pass({editing: true }).stringInsert("text", start, toInsert);
     }
     that.check();
-  })
+  });
 };
 
 CM.prototype.check = function() {
