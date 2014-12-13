@@ -1,4 +1,3 @@
-
 module.exports = CM;
 function CM() {}
 CM.prototype.view = __dirname;
@@ -12,8 +11,23 @@ CM.prototype.create = function() {
   var model = this.model;
   var that = this;
 
-  var options = model.get("options");
+  var options = this.getAttribute("options");
   var cm = this.cm = CodeMirror.fromTextArea(this.textarea, options);
+
+  // Dynamically load necessary files for the CodeMirror mode set through the mode option
+  // Mode can either be a mime-type `text/html` or a CodeMirror mode-name `htmlmixed`
+  // cf. http://codemirror.net/demo/loadmode.html
+
+  if (options.mode) {
+    var mode = options.mode;
+    if (/\//.test(options.mode)) {
+      var info = CodeMirror.findModeByMIME(options.mode);
+      if (info) {
+        mode = info.mode;
+      }
+    }
+    CodeMirror.autoLoadMode(cm, mode);
+  }
 
   // changes in values inside the array
   model.on("change", "text", function(oldVal, newVal, passed) {

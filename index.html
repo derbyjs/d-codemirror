@@ -4,5 +4,10 @@
   </div>
 
 <includes:>
-  <link rel="stylesheet" href="{{@static}}/codemirror.css">
-  <script type="text/javascript" src="{{@static}}/codemirror.js"></script>
+  <link rel="stylesheet" href="{{@static}}/lib/codemirror.css">
+  <script type="text/javascript" src="{{@static}}/lib/codemirror.js"></script>
+  <script type="text/javascript">
+      CodeMirror.modeURL = "{{@static}}/mode/%N/%N.js";
+  </script>
+  <script type="text/javascript" src="{{@static}}/addon/mode/loadmode.js"></script>
+  <script type="text/javascript" src="{{@static}}/mode/meta.js"></script>
