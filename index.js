@@ -34,15 +34,17 @@ CM.prototype.create = function() {
     //console.log("change data:", arguments);
     //we don't want to change the CM instance if we did the change
     if(passed.editing) return;
-    if(passed.$type === "stringInsert" && passed.text) {
+    var stringInsert = passed.$stringInsert;
+    var stringRemove = passed.$stringRemove;
+    if(stringInsert && stringInsert.text) {
       that.supress = true;
-      cm.replaceRange(passed.text, cm.posFromIndex(passed.index));
+      cm.replaceRange(stringInsert.text, cm.posFromIndex(stringInsert.index));
       that.supress = false;
       that.check();
-    } else if(passed.$type == "stringRemove" && passed.howMany) {
+    } else if(stringRemove && stringRemove.howMany) {
       that.supress = true;
-      var from = cm.posFromIndex(passed.index);
-      var to = cm.posFromIndex(passed.howMany);
+      var from = cm.posFromIndex(stringRemove.index);
+      var to = cm.posFromIndex(stringRemove.howMany);
       cm.replaceRange('', from, to);
       that.supress = false;
       that.check();
