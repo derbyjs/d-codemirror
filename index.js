@@ -1,4 +1,3 @@
-
 module.exports = CM;
 function CM() {}
 CM.prototype.view = __dirname;
@@ -12,8 +11,23 @@ CM.prototype.create = function() {
   var model = this.model;
   var that = this;
 
-  var options = model.get("options");
+  var options = this.getAttribute("options");
   var cm = this.cm = CodeMirror.fromTextArea(this.textarea, options);
+
+  // Dynamically load necessary files for the CodeMirror mode set through the mode option
+  // Mode can either be a mime-type `text/html` or a CodeMirror mode-name `htmlmixed`
+  // cf. http://codemirror.net/demo/loadmode.html
+
+  if (options.mode) {
+    var mode = options.mode;
+    if (/\//.test(options.mode)) {
+      var info = CodeMirror.findModeByMIME(options.mode);
+      if (info) {
+        mode = info.mode;
+      }
+    }
+    CodeMirror.autoLoadMode(cm, mode);
+  }
 
   // changes in values inside the array
   model.on("change", "text", function(oldVal, newVal, passed) {
@@ -33,7 +47,7 @@ CM.prototype.create = function() {
       that.supress = false;
       that.check();
     }
-  })
+  });
   cm.on("change", function(cm, change) {
     if(that.supress) return;
     //console.log("change", change)
@@ -43,7 +57,7 @@ CM.prototype.create = function() {
     if(change.removed.length > 1 || change.removed) {
       var toRemove = change.removed.join("\n");
       //console.log("toremove", toRemove, start)
-      model.pass({editing: true }).stringRemove("text", start, toRemove.length)
+      model.pass({editing: true }).stringRemove("text", start, toRemove.length);
     }
     //see if we have anything to insert
     if(change.text.length > 1 || change.text) {
@@ -52,7 +66,7 @@ CM.prototype.create = function() {
       model.pass({editing: true }).stringInsert("text", start, toInsert);
     }
     that.check();
-  })
+  });
 };
 
 CM.prototype.check = function() {
