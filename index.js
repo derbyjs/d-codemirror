@@ -50,23 +50,29 @@ CM.prototype.create = function() {
       that.check();
     }
   });
+
   cm.on("change", function(cm, change) {
     if(that.supress) return;
     //console.log("change", change)
     var start = cm.indexFromPos(change.from);
-    var end = cm.indexFromPos(change.to);
+    var condition;
+
+    //see if we have anything to insert
+    condition = typeof(change.text) === "string" && change.text
+    if(change.text.length >= 1 || condition ) {
+      //if(change.text.length == 1 && !change.text[0]) return; //don't insert nothing
+      var toInsert = change.text.join("\n");
+      model.pass({editing: true }).stringInsert("text", start, toInsert);
+    }
+
     //delete anything if needed
-    if(change.removed.length > 1 || change.removed) {
+    condition = typeof(change.removed) === "string" && change.removed
+    if(change.removed.length >= 1 || (typeof(change.removed === "string") && change.removed)) {
       var toRemove = change.removed.join("\n");
       //console.log("toremove", toRemove, start)
       model.pass({editing: true }).stringRemove("text", start, toRemove.length);
     }
-    //see if we have anything to insert
-    if(change.text.length > 1 || change.text) {
-      var toInsert = change.text.join("\n");
-      //console.log("toinsert", toInsert, start)
-      model.pass({editing: true }).stringInsert("text", start, toInsert);
-    }
+    
     that.check();
   });
 };
