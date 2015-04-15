@@ -5,6 +5,7 @@ CM.prototype.view = __dirname;
 CM.prototype.init = function() {
   var model = this.model;
   model.setNull("options", {});
+  model.setNull("debounce", 150)
 };
 
 CM.prototype.create = function() {
@@ -17,7 +18,6 @@ CM.prototype.create = function() {
   // Dynamically load necessary files for the CodeMirror mode set through the mode option
   // Mode can either be a mime-type `text/html` or a CodeMirror mode-name `htmlmixed`
   // cf. http://codemirror.net/demo/loadmode.html
-
   if (options.mode) {
     var mode = options.mode;
     if (/\//.test(options.mode)) {
@@ -31,9 +31,9 @@ CM.prototype.create = function() {
 
   // changes in values inside the array
   model.on("change", "text", function(oldVal, newVal, passed) {
-    //console.log("change data:", arguments);
     //we don't want to change the CM instance if we did the change
     if(passed.editing) return;
+
     var stringInsert = passed.$stringInsert;
     var stringRemove = passed.$stringRemove;
     if(stringInsert && stringInsert.text) {
@@ -51,29 +51,17 @@ CM.prototype.create = function() {
     }
   });
 
+  var debounce;
   cm.on("change", function(cm, change) {
     if(that.supress) return;
-    //console.log("change", change)
-    var start = cm.indexFromPos(change.from);
-    var condition;
-
-    //see if we have anything to insert
-    condition = typeof(change.text) === "string" && change.text
-    if(change.text.length >= 1 || condition ) {
-      //if(change.text.length == 1 && !change.text[0]) return; //don't insert nothing
-      var toInsert = change.text.join("\n");
-      model.pass({editing: true }).stringInsert("text", start, toInsert);
-    }
-
-    //delete anything if needed
-    condition = typeof(change.removed) === "string" && change.removed
-    if(change.removed.length >= 1 || (typeof(change.removed === "string") && change.removed)) {
-      var toRemove = change.removed.join("\n");
-      //console.log("toremove", toRemove, start)
-      model.pass({editing: true }).stringRemove("text", start, toRemove.length);
-    }
-    
-    that.check();
+    if(debounce) {
+      clearTimeout(debounce);
+      debounce = null;
+    } 
+    debounce = setTimeout(function(){
+      var value = cm.getValue();
+      that.model.pass({editing: true}).setDiff("text", value)
+    }, model.get("debounce"))
   });
 };
 
@@ -82,6 +70,7 @@ CM.prototype.check = function() {
   setTimeout(function () {
     var cmText = that.cm.getValue();
     var otText = that.model.get("text") || '';
+    var cursor = that.cm.getCursor();
 
     if (cmText != otText) {
       /*
@@ -93,6 +82,7 @@ CM.prototype.check = function() {
       that.supress = true;
       that.cm.setValue(otText);
       that.supress = false;
+      that.cm.setCursor(cursor)
     }
   }, 0);
 };
