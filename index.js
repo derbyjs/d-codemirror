@@ -30,7 +30,7 @@ CM.prototype.create = function() {
   }
 
   // changes in values inside the array
-  model.on("change", "text", function(oldVal, newVal, passed) {
+  model.on("change", "text", function(newVal, oldVal, passed) {
     //we don't want to change the CM instance if we did the change
     if(passed.editing) return;
 
@@ -47,7 +47,13 @@ CM.prototype.create = function() {
       var to = cm.posFromIndex(stringRemove.howMany);
       cm.replaceRange('', from, to);
       that.supress = false;
-      that.check();
+    } else {
+      // using model.setDiff doesnt provide stringInsert and stringRemove, just changes the text
+      var cursor = that.cm.getCursor();
+      that.supress = true;
+      that.cm.setValue(newVal);
+      that.supress = false;
+      that.cm.setCursor(cursor)
     }
   });
 
