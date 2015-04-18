@@ -29,6 +29,11 @@ CM.prototype.create = function() {
     CodeMirror.autoLoadMode(cm, mode);
   }
 
+  if(options.inlet) {
+    var Inlet = require('codemirror-inlet')
+    Inlet(cm)
+  }
+
   // changes in values inside the array
   model.on("change", "text", function(newVal, oldVal, passed) {
     //we don't want to change the CM instance if we did the change
