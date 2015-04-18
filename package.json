@@ -1,7 +1,7 @@
 {
   "name": "d-codemirror",
   "description": "Derby component for a live-bound codemirror",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "main": "index.js",
   "keywords": [
     "derby",
