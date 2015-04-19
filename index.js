@@ -29,7 +29,7 @@ CM.prototype.create = function() {
     CodeMirror.autoLoadMode(cm, mode);
   }
 
-  if(options.inlet) {
+  if(options.inlet && !options.readOnly) {
     var Inlet = require('codemirror-inlet')
     Inlet(cm)
   }
