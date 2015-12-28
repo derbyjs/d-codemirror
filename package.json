@@ -10,10 +10,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/codeparty/d-codemirror.git"
+    "url": "git://github.com/derbyjs/d-codemirror.git"
   },
   "bugs": {
-    "url": "https://github.com/codeparty/d-codemirror/issues"
+    "url": "https://github.com/derbyjs/d-codemirror/issues"
   },
   "author": "Ian Johnson",
   "license": "MIT",

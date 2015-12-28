@@ -4,7 +4,7 @@ d-codemirror
 Example CodeMirror Derby component.
 
 # Usage
-[Example usage](http://github.com/codeparty/derby-examples/tree/master/codemirror)
+[Example usage](http://github.com/derbyjs/derby-examples/tree/master/codemirror)
 
 ## In your template
 ```
@@ -31,5 +31,5 @@ var expressApp = express()
   (…)
 ````
 
-See the [derby-examples](http://github.com/codeparty/derby-examples/tree/master/codemirror)
+See the [derby-examples](http://github.com/derbyjs/derby-examples/tree/master/codemirror)
 repo for an example using real-time data subscriptions to power multi-player editing.
