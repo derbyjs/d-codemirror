@@ -29,11 +29,6 @@ CM.prototype.create = function() {
     CodeMirror.autoLoadMode(cm, mode);
   }
 
-  if(options.inlet && !options.readOnly) {
-    var Inlet = require('codemirror-inlet')
-    Inlet(cm)
-  }
-
   // changes in values inside the array
   model.on("change", "text", function(newVal, oldVal, passed) {
     //we don't want to change the CM instance if we did the change
@@ -68,7 +63,7 @@ CM.prototype.create = function() {
     if(debounce) {
       clearTimeout(debounce);
       debounce = null;
-    } 
+    }
     debounce = setTimeout(function(){
       var value = cm.getValue();
       that.model.pass({editing: true}).setDiff("text", value)

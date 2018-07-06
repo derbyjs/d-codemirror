@@ -18,8 +18,7 @@
   "author": "Ian Johnson",
   "license": "MIT",
   "dependencies": {
-    "codemirror": "^5.1.0",
-    "codemirror-inlet": "^0.1.0"
+    "codemirror": "^5.39.0"
   },
   "devDependencies": {}
 }
