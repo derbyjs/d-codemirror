@@ -2,16 +2,16 @@ module.exports = CM;
 function CM() {}
 CM.prototype.view = __dirname;
 
-CM.prototype.init = function() {
-  var model = this.model;
-  model.setNull("options", {});
-  model.setNull("debounce", 150)
 if (require && require.resolve) {
   var path = require('path');
   var entry = require.resolve('codemirror');
   CM.root = path.resolve(entry, '../../');
 }
 
+CM.prototype.init = function() {
+  var model = this.model;
+  model.setNull("options", {});
+  model.setNull("debounce", 150)
 };
 
 CM.prototype.create = function() {
